@@ -40,7 +40,7 @@ const Sidebar = () => {
         }`}
       >
         <div className="py-3 px-4 flex items-center justify-start">
-          <p className="text-2xl font-medium truncate">Burguer Jardin</p>
+          <p className="text-2xl font-medium truncate">POS</p>
         </div>
         <div className="flex-1 py-2 overflow-y-auto">
           <ul className="space-y-1">
