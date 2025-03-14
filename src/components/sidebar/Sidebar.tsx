@@ -33,7 +33,7 @@ const Sidebar = () => {
   };
 
   return (
-    <>
+    <aside className="flex">
       <div
         className={`bg-white border-r border-gray-200 flex flex-col h-full transition-all duration-300 ease-in-out ${
           expanded ? "w-60" : "w-16"
@@ -115,7 +115,7 @@ const Sidebar = () => {
       >
         <PanelRight size={18} />
       </button>
-    </>
+    </aside>
   );
 };
 
