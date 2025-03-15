@@ -13,16 +13,16 @@ import { NavLink } from "react-router-dom";
 
 const menuItems = [
   { id: "dashboard", name: "Dashboard", icon: Layout, path: "/" },
-  { id: "mesas", name: "Mesas", icon: Utensils, path: "/mesas" },
+  { id: "tables", name: "Mesas", icon: Utensils, path: "/tables" },
   {
-    id: "punto-venta",
+    id: "point-of-sale",
     name: "Punto de Venta",
     icon: ShoppingCart,
     path: "/pos",
   },
-  { id: "ventas", name: "Ventas", icon: BarChart2, path: "/ventas" },
-  { id: "inventario", name: "Inventario", icon: Package, path: "/inventario" },
-  { id: "personal", name: "Personal", icon: Users, path: "/personal" },
+  { id: "sales", name: "Ventas", icon: BarChart2, path: "/sales" },
+  { id: "inventory", name: "Inventario", icon: Package, path: "/inventory" },
+  { id: "staff", name: "Personal", icon: Users, path: "/staff" },
 ];
 
 const Sidebar = () => {
