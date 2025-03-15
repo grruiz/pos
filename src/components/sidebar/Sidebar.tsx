@@ -9,19 +9,21 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const menuItems = [
-  { id: "dashboard", name: "Dashboard", icon: Layout },
-  { id: "mesas", name: "Mesas", icon: Utensils },
-  { id: "punto-venta", name: "Punto de Venta", icon: ShoppingCart },
-  { id: "ventas", name: "Ventas", icon: BarChart2 },
-  { id: "inventario", name: "Inventario", icon: Package },
-  { id: "personal", name: "Personal", icon: Users },
+  { id: "dashboard", nameKey: "menu.dashboard", icon: Layout },
+  { id: "mesas", nameKey: "menu.tables", icon: Utensils },
+  { id: "punto-venta", nameKey: "menu.pointOfSale", icon: ShoppingCart },
+  { id: "ventas", nameKey: "menu.sales", icon: BarChart2 },
+  { id: "inventario", nameKey: "menu.inventory", icon: Package },
+  { id: "personal", nameKey: "menu.staff", icon: Users },
 ];
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
   const [activeItem, setActiveItem] = useState("dashboard");
+  const { t } = useTranslation();
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
@@ -73,7 +75,7 @@ const Sidebar = () => {
                       visibility: expanded ? "visible" : "hidden",
                     }}
                   >
-                    {item.name}
+                    {t(item.nameKey)}
                   </span>
                 </button>
               </li>
