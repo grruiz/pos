@@ -9,24 +9,31 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { NavLink } from "react-router-dom";
 
 const menuItems = [
-  { id: "dashboard", name: "Dashboard", icon: Layout, path: "/" },
-  { id: "tables", name: "Mesas", icon: Utensils, path: "/tables" },
+  { id: "dashboard", nameKey: "menu.dashboard", icon: Layout, path: "/" },
+  { id: "tables", nameKey: "menu.tables", icon: Utensils, path: "/tables" },
   {
     id: "point-of-sale",
-    name: "Punto de Venta",
+    nameKey: "menu.pointOfSale",
     icon: ShoppingCart,
     path: "/pos",
   },
-  { id: "sales", name: "Ventas", icon: BarChart2, path: "/sales" },
-  { id: "inventory", name: "Inventario", icon: Package, path: "/inventory" },
-  { id: "staff", name: "Personal", icon: Users, path: "/staff" },
+  { id: "sales", nameKey: "menu.sales", icon: BarChart2, path: "/sales" },
+  {
+    id: "inventory",
+    nameKey: "menu.inventory",
+    icon: Package,
+    path: "/inventory",
+  },
+  { id: "staff", nameKey: "menu.staff", icon: Users, path: "/staff" },
 ];
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
+  const { t } = useTranslation();
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
@@ -74,7 +81,7 @@ const Sidebar = () => {
                           visibility: expanded ? "visible" : "hidden",
                         }}
                       >
-                        {item.name}
+                        {t(item.nameKey)}
                       </span>
                     </>
                   )}

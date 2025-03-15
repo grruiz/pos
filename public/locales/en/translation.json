@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "dashboard": "Dashboard",
+    "tables": "Tables",
+    "pointOfSale": "Point of Sale",
+    "sales": "Sales",
+    "inventory": "Inventory",
+    "staff": "Staff"
+  }
+}

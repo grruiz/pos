@@ -1,0 +1,10 @@
+{
+  "menu": {
+    "dashboard": "Dashboard",
+    "tables": "Mesas",
+    "pointOfSale": "Punto de Venta",
+    "sales": "Ventas",
+    "inventory": "Inventario",
+    "staff": "Personal"
+  }
+}
