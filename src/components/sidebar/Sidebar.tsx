@@ -9,27 +9,27 @@ import {
   Utensils,
 } from "lucide-react";
 import { useState } from "react";
+import { NavLink } from "react-router-dom";
 
 const menuItems = [
-  { id: "dashboard", name: "Dashboard", icon: Layout },
-  { id: "mesas", name: "Mesas", icon: Utensils },
-  { id: "punto-venta", name: "Punto de Venta", icon: ShoppingCart },
-  { id: "ventas", name: "Ventas", icon: BarChart2 },
-  { id: "inventario", name: "Inventario", icon: Package },
-  { id: "personal", name: "Personal", icon: Users },
+  { id: "dashboard", name: "Dashboard", icon: Layout, path: "/" },
+  { id: "mesas", name: "Mesas", icon: Utensils, path: "/mesas" },
+  {
+    id: "punto-venta",
+    name: "Punto de Venta",
+    icon: ShoppingCart,
+    path: "/pos",
+  },
+  { id: "ventas", name: "Ventas", icon: BarChart2, path: "/ventas" },
+  { id: "inventario", name: "Inventario", icon: Package, path: "/inventario" },
+  { id: "personal", name: "Personal", icon: Users, path: "/personal" },
 ];
 
 const Sidebar = () => {
   const [expanded, setExpanded] = useState(true);
-  const [activeItem, setActiveItem] = useState("dashboard");
 
   const toggleSidebar = () => {
     setExpanded(!expanded);
-  };
-
-  const handleItemClick = (itemId: string) => {
-    setActiveItem(itemId);
-    console.log(`Navegando a: ${itemId}`);
   };
 
   return (
@@ -46,42 +46,46 @@ const Sidebar = () => {
           <ul className="space-y-1">
             {menuItems.map((item) => (
               <li key={item.id}>
-                <button
-                  className={`w-full flex items-center ${
-                    expanded ? "justify-start gap-x-2" : "justify-center"
-                  } text-sm font-medium rounded-lg px-3 py-2 transition-all 
+                <NavLink
+                  to={item.path}
+                  className={({ isActive }) => `
+                    w-full flex items-center ${
+                      expanded ? "justify-start gap-x-2" : "justify-center"
+                    } text-sm font-medium rounded-lg px-3 py-2 transition-all 
                     ${
-                      activeItem === item.id
+                      isActive
                         ? "text-black bg-gray-100 font-medium"
                         : "text-gray-600 hover:text-black hover:bg-gray-100"
-                    }`}
-                  onClick={() => handleItemClick(item.id)}
-                  aria-current={activeItem === item.id ? "page" : undefined}
-                >
-                  <item.icon
-                    size={18}
-                    strokeWidth={1.75}
-                    className={
-                      activeItem === item.id ? "text-black" : "text-gray-500"
                     }
-                  />
-                  <span
-                    className="transition-all duration-300 overflow-hidden whitespace-nowrap"
-                    style={{
-                      maxWidth: expanded ? "160px" : "0px",
-                      opacity: expanded ? 1 : 0,
-                      visibility: expanded ? "visible" : "hidden",
-                    }}
-                  >
-                    {item.name}
-                  </span>
-                </button>
+                  `}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <item.icon
+                        size={18}
+                        strokeWidth={1.75}
+                        className={isActive ? "text-black" : "text-gray-500"}
+                      />
+                      <span
+                        className="transition-all duration-300 overflow-hidden whitespace-nowrap"
+                        style={{
+                          maxWidth: expanded ? "160px" : "0px",
+                          opacity: expanded ? 1 : 0,
+                          visibility: expanded ? "visible" : "hidden",
+                        }}
+                      >
+                        {item.name}
+                      </span>
+                    </>
+                  )}
+                </NavLink>
               </li>
             ))}
           </ul>
         </div>
         <div className="p-4 mt-auto">
           <button
+            onClick={() => {}}
             className="flex items-center w-full p-2 border border-gray-200 rounded transition-colors justify-center text-gray-700 hover:bg-gray-100 hover:text-black hover:border-gray-300"
             style={{
               fontFamily:
