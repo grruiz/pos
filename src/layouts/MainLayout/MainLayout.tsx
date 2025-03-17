@@ -5,7 +5,7 @@ function MainLayout() {
   return (
     <div className="flex h-screen">
       <Sidebar />
-      <main>
+      <main className="flex-1 overflow-auto">
         <Outlet />
       </main>
     </div>
