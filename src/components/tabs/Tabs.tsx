@@ -1,16 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, ReactNode, ReactElement } from "react";
 
-const Tabs = ({ defaultValue, className, children }) => {
-  const [activeTab, setActiveTab] = useState(defaultValue || "");
+interface TabsProps {
+  defaultValue: string;
+  className?: string;
+  children: ReactNode;
+}
+
+interface TabsListProps {
+  activeTab?: string;
+  setActiveTab?: (value: string) => void;
+  className?: string;
+  children: ReactNode;
+}
+
+interface TabsTriggerProps {
+  activeTab?: string;
+  setActiveTab?: (value: string) => void;
+  value: string;
+  className?: string;
+  children: ReactNode;
+}
+
+interface TabsContentProps {
+  activeTab?: string;
+  className?: string;
+  children: ReactNode;
+}
+
+interface TabsPanelProps {
+  activeTab?: string;
+  value: string;
+  className?: string;
+  children: ReactNode;
+}
+
+const Tabs: React.FC<TabsProps> = ({ defaultValue, className, children }) => {
+  const [activeTab, setActiveTab] = useState<string>(defaultValue || "");
 
   // Extract TabsList and TabsContent from children
   const tabsList = React.Children.toArray(children).find(
-    (child) => child.type === TabsList
-  );
+    (child) => React.isValidElement(child) && child.type === TabsList
+  ) as ReactElement<TabsListProps> | undefined;
 
   const tabsContent = React.Children.toArray(children).find(
-    (child) => child.type === TabsContent
-  );
+    (child) => React.isValidElement(child) && child.type === TabsContent
+  ) as ReactElement<TabsContentProps> | undefined;
+
+  if (!tabsList || !tabsContent) {
+    return null;
+  }
 
   // Clone TabsList with activeTab and setActiveTab props
   const enhancedTabsList = React.cloneElement(tabsList, {
@@ -31,11 +69,16 @@ const Tabs = ({ defaultValue, className, children }) => {
   );
 };
 
-const TabsList = ({ activeTab, setActiveTab, className, children }) => {
+const TabsList: React.FC<TabsListProps> = ({
+  activeTab,
+  setActiveTab,
+  className,
+  children,
+}) => {
   // Clone TabsTrigger children with activeTab and setActiveTab props
   const enhancedTriggers = React.Children.map(children, (child) => {
-    if (child.type === TabsTrigger) {
-      return React.cloneElement(child, {
+    if (React.isValidElement(child) && child.type === TabsTrigger) {
+      return React.cloneElement(child as ReactElement<TabsTriggerProps>, {
         activeTab,
         setActiveTab,
       });
@@ -43,10 +86,6 @@ const TabsList = ({ activeTab, setActiveTab, className, children }) => {
     return child;
   });
 
-  // Count the number of triggers to calculate width
-  const triggerCount = React.Children.count(children);
-
-  // Usar flex con justify-between
   return (
     <div
       className={`w-full flex flex-wrap bg-gray-100 p-1 rounded-md ${
@@ -58,7 +97,7 @@ const TabsList = ({ activeTab, setActiveTab, className, children }) => {
   );
 };
 
-const TabsTrigger = ({
+const TabsTrigger: React.FC<TabsTriggerProps> = ({
   activeTab,
   setActiveTab,
   value,
@@ -73,7 +112,7 @@ const TabsTrigger = ({
       role="tab"
       aria-selected={isActive}
       data-state={isActive ? "active" : "inactive"}
-      onClick={() => setActiveTab(value)}
+      onClick={() => setActiveTab && setActiveTab(value)}
       className={`
         flex-1 inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium
         transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring
@@ -90,11 +129,15 @@ const TabsTrigger = ({
   );
 };
 
-const TabsContent = ({ activeTab, className, children }) => {
+const TabsContent: React.FC<TabsContentProps> = ({
+  activeTab,
+  className,
+  children,
+}) => {
   // Clone TabsPanel children with activeTab prop
   const enhancedPanels = React.Children.map(children, (child) => {
-    if (child.type === TabsPanel) {
-      return React.cloneElement(child, {
+    if (React.isValidElement(child) && child.type === TabsPanel) {
+      return React.cloneElement(child as ReactElement<TabsPanelProps>, {
         activeTab,
       });
     }
@@ -108,7 +151,12 @@ const TabsContent = ({ activeTab, className, children }) => {
   );
 };
 
-const TabsPanel = ({ activeTab, value, className, children }) => {
+const TabsPanel: React.FC<TabsPanelProps> = ({
+  activeTab,
+  value,
+  className,
+  children,
+}) => {
   const isActive = activeTab === value;
 
   if (!isActive) return null;
@@ -127,9 +175,9 @@ const TabsPanel = ({ activeTab, value, className, children }) => {
 };
 
 // Demo component that uses the Tabs system
-const TabsDemo = () => {
+const TabsDemo: React.FC = () => {
   return (
-    <Tabs defaultValue="all" className="w-full pl-6 pr-6 pt-6 ">
+    <Tabs defaultValue="all" className="w-full">
       <TabsList>
         <TabsTrigger value="all">Todos</TabsTrigger>
         <TabsTrigger value="entrees">Entrantes</TabsTrigger>
@@ -213,4 +261,5 @@ const TabsDemo = () => {
   );
 };
 
+export { Tabs, TabsList, TabsTrigger, TabsContent, TabsPanel };
 export default TabsDemo;
